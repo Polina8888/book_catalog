@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
-import CatalogPage from '../books/CatalogPage.tsx';
-import BookPage from '../books/BookPage.tsx';
-import CartPage from '../cart/CartPage.tsx';
+import CatalogPage from './modules/books/pages/CatalogPage.tsx';
+import BookPage from './modules/books/pages/BookPage.tsx';
+import CartPage from './modules/cart/CartPage.tsx';
 
 function App() {
   return (
