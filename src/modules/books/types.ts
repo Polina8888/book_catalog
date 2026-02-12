@@ -8,6 +8,6 @@ export interface Book {
     imageLinks?: {
       thumbnail?: string
     }
-    price: number
-  }
+  },
+  price: number
 }

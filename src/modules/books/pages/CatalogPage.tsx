@@ -7,6 +7,7 @@ import { useDebounce } from '../../../hooks/useDebounce.ts'
 import { useAppSelector } from '../../../store.ts'
 import { BooksFilters } from '../components/BooksFilter.tsx'
 import BooksList from '../components/BooksList.tsx'
+import { Link } from 'react-router-dom'
 
 function CatalogPage() {
   const [rawSearch, setRawSearch] = useState<string>('');
@@ -38,8 +39,12 @@ function CatalogPage() {
 
         return loadedItems < lastPage.totalItems ? loadedItems : undefined
       },
-      select: (data) =>
-        data.pages.flatMap((page) => page.items),
+      select: (data) => {
+        const items = data.pages.flatMap((page) => page.items);
+        return items.map((item) => {
+          return { ...item, price: Math.round(Math.random() * 100000) }
+        })
+      },
       enabled: !(effectiveSearch.trim().length === 0 && category === 'all'),
     })
 
@@ -65,8 +70,8 @@ function CatalogPage() {
           {isFetchingNextPage ? 'Loading...' : 'Load more'}
         </button>
       )}
+      <Link to="/cart">Cart</Link>
     </div>
-
   )
 }
 

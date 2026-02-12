@@ -8,13 +8,12 @@ interface BooksFiltersProps {
 
 export function BooksFilters({ category, sortBy }: BooksFiltersProps) {
   const dispatch = useAppDispatch();
-  const { setCategory, setSortBy } = booksSlice.actions
 
   return (
     <div>
       <select
         value={category}
-        onChange={e => dispatch(setCategory(e.target.value))}
+        onChange={e => dispatch(booksSlice.actions.setCategory(e.target.value))}
       >
         <option value="all">All</option>
         <option value="art">Art</option>
@@ -24,7 +23,7 @@ export function BooksFilters({ category, sortBy }: BooksFiltersProps) {
 
       <select
         value={sortBy}
-        onChange={e => dispatch(setSortBy(e.target.value as 'relevance' | 'newest'))}
+        onChange={e => dispatch(booksSlice.actions.setSortBy(e.target.value as 'relevance' | 'newest'))}
       >
         <option value="relevance">Relevance</option>
         <option value="newest">Newest</option>
