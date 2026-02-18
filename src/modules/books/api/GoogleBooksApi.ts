@@ -45,3 +45,18 @@ export async function fetchBooks(
     throw new Error('Неизвестная ошибка')
   }
 }
+
+export async function getBookById(id: string): Promise<Book> {
+  const response = await axios.get(`${BASE_URL}/volumes/${id}`, {
+    params: {
+      key: API_KEY
+    }
+  });
+
+  if (!response) {
+    throw new Error("Failed to fetch book");
+  }
+
+  const price = Math.round(Math.random() * 10000)
+  return { ...response.data, price }
+}

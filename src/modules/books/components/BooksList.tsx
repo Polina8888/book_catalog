@@ -2,6 +2,7 @@ import type { Book } from '../types.ts'
 import { cartSlice } from '../../cart/cartSlice.ts'
 import { useAppDispatch } from '../../../store.ts'
 import type { CartItem } from '../../cart/types.ts'
+import { useNavigate } from 'react-router-dom'
 
 interface BooksList {
     books: Book[] | undefined
@@ -27,6 +28,8 @@ function BooksList({ books, isLoading, isError }: BooksList) {
         // console.log('Added to cart')
     }
 
+    const navigate = useNavigate();
+
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>An error occurred</p>
 
@@ -39,7 +42,7 @@ function BooksList({ books, isLoading, isError }: BooksList) {
                 {books?.map(item => (
                     <li key={item.id}>
                         <button className='btn btn-primary' onClick={() => handleAddToCart(item)}>Add to cart</button>
-                        <p>{item.volumeInfo.title}</p>
+                        <p onClick={() => navigate(`/books/${item.id}`)}>{item.volumeInfo.title}</p>
                     </li>
                 ))}
             </ul>

@@ -42,7 +42,7 @@ function CatalogPage() {
       select: (data) => {
         const items = data.pages.flatMap((page) => page.items);
         return items.map((item) => {
-          return { ...item, price: Math.round(Math.random() * 100000) }
+          return { ...item, price: Math.round(Math.random() * 10000) }
         })
       },
       enabled: !(effectiveSearch.trim().length === 0 && category === 'all'),
