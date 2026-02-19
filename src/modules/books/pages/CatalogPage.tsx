@@ -7,7 +7,7 @@ import { useDebounce } from '../../../hooks/useDebounce.ts'
 import { useAppSelector } from '../../../store.ts'
 import { BooksFilters } from '../components/BooksFilter.tsx'
 import BooksList from '../components/BooksList.tsx'
-import { Link } from 'react-router-dom'
+import CartIcon from '../../cart/CartIcon.tsx'
 
 function CatalogPage() {
   const [rawSearch, setRawSearch] = useState<string>('');
@@ -53,12 +53,13 @@ function CatalogPage() {
   }
 
   return (
-    <div className='vh-100 d-flex flex-column justify-content-center align-items-center'>
+    <div className='d-flex flex-column justify-content-center align-items-center'>
       <input
         value={rawSearch}
         onChange={(e) => setRawSearch(e.target.value)}
         placeholder="Search books"
       />
+      <CartIcon></CartIcon>
       <BooksFilters category={category} sortBy={sortBy}></BooksFilters>
       <BooksList books={data} isLoading={isLoading} isError={error ? true : false}></BooksList>
 
@@ -70,7 +71,6 @@ function CatalogPage() {
           {isFetchingNextPage ? 'Loading...' : 'Load more'}
         </button>
       )}
-      <Link to="/cart">Cart</Link>
     </div>
   )
 }
