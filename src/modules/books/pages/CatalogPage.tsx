@@ -8,6 +8,7 @@ import { useAppSelector } from '../../../store.ts'
 import { useAppDispatch } from '../../../store.ts';
 import { booksSlice } from '../booksSlice.ts';
 import { BooksFilters } from '../components/BooksFilter.tsx'
+import { useInView } from 'react-intersection-observer'
 import BooksList from '../components/BooksList.tsx'
 import CartIcon from '../../cart/CartIcon.tsx'
 
@@ -15,6 +16,8 @@ function CatalogPage() {
   const dispatch = useAppDispatch();
   const { search, category, sortBy } = useAppSelector((state) => state.books);
   const [rawSearch, setRawSearch] = useState(search);
+
+  const { ref, inView } = useInView()
 
   const debouncedSearch = useDebounce(rawSearch, 500);
 
@@ -50,6 +53,12 @@ function CatalogPage() {
       enabled: !(search.trim().length === 0 && category === 'all'),
     })
 
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
   return (
     <div className='d-flex flex-column justify-content-center align-items-center' style={{ padding: '2.5rem' }}>
       <label htmlFor="search-input" className="visually-hidden">
@@ -76,7 +85,7 @@ function CatalogPage() {
         <CartIcon></CartIcon>
       </div>
       <BooksFilters category={category} sortBy={sortBy}></BooksFilters>
-      <div className='container'>
+      <div className='container mb-4'>
         <div className='row gy-4'>
           <BooksList books={data} isLoading={isLoading} isError={error ? true : false}></BooksList>
         </div>
@@ -84,6 +93,8 @@ function CatalogPage() {
 
       {hasNextPage && (
         <button
+          ref={ref}
+          className='btn btn-primary'
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
         >
