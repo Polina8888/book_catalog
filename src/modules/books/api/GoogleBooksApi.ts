@@ -30,9 +30,17 @@ export async function fetchBooks(
     })
 
     console.log(response.data)
+
+    const items = response.data?.items ?? [];
+    const itemsWithPrice = items.map((item: Book) => {
+      const hash = item.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const price = (hash % 191) + 10;   // price from 10 to 200
+      return { ...item, price }
+    });
+
     return {
       ...response.data,
-      items: response.data.items ?? [],
+      items: itemsWithPrice,
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -57,6 +65,7 @@ export async function getBookById(id: string): Promise<Book> {
     throw new Error("Failed to fetch book");
   }
 
-  const price = Math.round(Math.random() * 10000)
+  const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const price = (hash % 191) + 10;   // price from 10 to 200
   return { ...response.data, price }
 }
