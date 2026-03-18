@@ -13,10 +13,10 @@ function CartPage() {
     return (
       <div className={styles.container}>
         <div className={styles.emptyState}>
-          <h3>Ваша корзина пуста</h3>
-          <p>Похоже, вы ещё не выбрали ни одной книги.</p>
+          <h3>Your cart is empty</h3>
+          <p>Start shopping to fill your cart</p>
           <Link to="/" className={styles.backLink}>
-            Вернуться в каталог
+            Back to catalog
           </Link>
         </div>
       </div>
