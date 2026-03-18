@@ -28,9 +28,9 @@ function CartPage() {
       <div className={styles.contentWrapper}>
         
         <header className={styles.header}>
-          <h1 className={styles.title}>Корзина</h1>
+          <h1 className={styles.title}>Cart</h1>
           <button className={styles.clearBtn} onClick={() => dispatch(cartSlice.actions.clearCart())}>
-            Очистить всё
+            Clear cart
           </button>
         </header>
 
@@ -40,7 +40,7 @@ function CartPage() {
               
               <div className={styles.itemInfo}>
                 <h3 className={styles.itemTitle}>{item.title}</h3>
-                <span className={styles.itemPrice}>{item.price} $ / шт.</span>
+                <span className={styles.itemPrice}>{item.price} $</span>
               </div>
 
               <div className={styles.controls}>
@@ -72,11 +72,11 @@ function CartPage() {
 
         <footer className={styles.footer}>
           <div className={styles.totalRow}>
-            <span>Товаров:</span>
+            <span>Total items:</span>
             <span>{totalCount}</span>
           </div>
           <div className={`${styles.totalRow} ${styles.final}`}>
-            <span>Итого:</span>
+            <span>Total price:</span>
             <span>{totalPrice} $</span>
           </div>
         </footer>
