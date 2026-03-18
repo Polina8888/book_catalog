@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#  BookStore
 
-Currently, two official plugins are available:
+Интерактивный каталог книг с поиском, фильтрацией и корзиной, построенный на основе Google Books API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[**Демо**](https://bookcatalog8888app.vercel.app/)
 
-## React Compiler
+---
+## Особенности
+- **Поиск и фильтрация** — поиск по ключевым словам, названию/автору, сортировка по релевантности и дате.
+- **Бесконечная прокрутка** — загрузка книг по мере скролла без пауз и перерисовок
+- **Корзина с сохранением состояния** — добавление, удаление, изменение количества товаров
+- **Адаптивный дизайн** — корректное отображение на мобильных, планшетах и десктопах
+- **Санитизация контента** — безопасный рендеринг HTML-описаний книг
+- **Задержка загрузки при вводе текста** - возможность ввести в поиск слово без загрузки на каждую букву
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Технологический стек
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Технология | Для чего использую | Результат |
+|------------|-------------------|----------------|
+| **TypeScript** | Типизация компонентов, API-ответов, действий Redux | Раннее выявление ошибок |
+| **React** | Основной фреймворк | Компонентный подход, экосистема, востребованность на рынке |
+| **React Query** | Получение, кэширование серверных данных и управление ими| Mгновенная загрузка из кэша при возврате на страницу; Нет лишних запросов к API; Бесконечная прокрутка|
+| **Redux Toolkit** | Глобальное состояние клиента (корзина, UI) | Оптимизация рендеров; Пользователь не теряет товары при закрытии вкладки; Единый источник истины для клиентских данных |
+| **CSS Modules** | Изолированная стилизация компонентов | Нет конфликтов имён |
+| **DOMPurify** | Санитизация HTML-описаний книг | Защита от XSS-атак при рендеринге внешнего контента |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Установка и запуск
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+# Клонирование репозитория
+git clone git@github.com:Polina8888/product-catalog.git
+cd product-catalog
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# Установка зависимостей
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# Переменные окружения 
+Создайте файл `.env` в корне проекта и пропишите API key:
+VITE_GOOGLE_BOOKS_API_KEY=your_google_books_api_key
+
+# Запуск в режиме разработки
+npm run dev
+
+# Сборка для продакшена
+npm run build
