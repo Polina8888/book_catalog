@@ -7,7 +7,7 @@
 
   
 
-[**Демо**](https://bookcatalog8888app.vercel.app/)
+[**Демо**](https://book-catalog-smoky.vercel.app/)
 
   
 
