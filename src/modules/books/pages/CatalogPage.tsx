@@ -11,6 +11,7 @@ import { BooksFilters } from '../components/BooksFilter.tsx'
 import { useInView } from 'react-intersection-observer'
 import BooksList from '../components/BooksList.tsx'
 import CartIcon from '../../cart/CartIcon.tsx'
+import styles from '../css-modules/CatalogPage.module.css'
 
 function CatalogPage() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ function CatalogPage() {
   const debouncedSearch = useDebounce(rawSearch, 500);
 
   useEffect(() => {
+    console.log('debaounced')
     dispatch(booksSlice.actions.setSearch(debouncedSearch));
   }, [debouncedSearch, dispatch]);
 
@@ -60,47 +62,56 @@ function CatalogPage() {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
   return (
-    <div className='d-flex flex-column justify-content-center align-items-center' style={{ padding: '2.5rem' }}>
-      <label htmlFor="search-input" className="visually-hidden">
-        Search books
-      </label>
-      <div className='mb-4'>
-        <div className="input-group">
-          <span className="input-group-text bg-white border-end-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search text-muted" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-            </svg>
+    <div className={styles.root}>
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <span className={styles.logo}>
+            GoogleBooks
           </span>
-          <input
-            id="search-input"
-            type="search"
-            className="form-control border-start-0"
-            value={rawSearch}
-            onChange={(e) => setRawSearch(e.target.value)}
-            placeholder="Search books"
-            aria-label="Search books"
-          />
-        </div>
 
-        <CartIcon></CartIcon>
-      </div>
-      <BooksFilters category={category} sortBy={sortBy}></BooksFilters>
-      <div className='container mb-4'>
-        <div className='row gy-4'>
-          <BooksList books={data} isLoading={isLoading} isError={error ? true : false}></BooksList>
+          <div className={styles.searchWrap}>
+            <span className={styles.searchIcon}>⌕</span>
+            <label htmlFor="search-input" className="visually-hidden">
+              Search books
+            </label>
+            <input
+              id="search-input"
+              type="search"
+              className={styles.search}
+              value={rawSearch}
+              onChange={(e) => setRawSearch(e.target.value)}
+              placeholder="Search by keywords or author…"
+              aria-label="Search books"
+            />
+          </div>
+
+          <CartIcon></CartIcon>
         </div>
+      </header>
+
+      <div className={styles.filtersBar}>
+        <div className={styles.labelsWrapper}>
+          <span className={styles.filterLabel}>Genre</span>
+          <span className={styles.filterLabel}>Sorted by</span>
+        </div>
+        <BooksFilters category={category} sortBy={sortBy} />
       </div>
 
-      {hasNextPage && (
-        <button
-          ref={ref}
-          className='btn btn-primary'
-          onClick={() => fetchNextPage()}
-          disabled={isFetchingNextPage}
-        >
-          {isFetchingNextPage ? 'Loading...' : 'Load more'}
-        </button>
-      )}
+      <main className={styles.main}>
+
+        <BooksList books={data} isLoading={isLoading} isError={!!error} />
+
+        {hasNextPage && (
+          <button
+            ref={ref}
+            onClick={() => fetchNextPage()}
+            className={styles.loadingButton}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? 'Loading…' : 'Load more'}
+          </button>
+        )}
+      </main>
     </div>
   )
 }

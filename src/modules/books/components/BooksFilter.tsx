@@ -1,5 +1,18 @@
 import { useAppDispatch } from '../../../store.ts';
 import { booksSlice } from '../booksSlice.ts';
+import styles from '../css-modules/CatalogPage.module.css'
+
+const categories: { value: string; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'art', label: 'Art' },
+  { value: 'biography', label: 'Biography' },
+  { value: 'computers', label: 'Computers' },
+]
+
+const sorts: { value: 'relevance' | 'newest', label: string }[] = [
+  { label: 'By relevance', value: 'relevance' },
+  { label: 'By newest', value: 'newest' }
+]
 
 interface BooksFiltersProps {
   category: string
@@ -10,47 +23,29 @@ export function BooksFilters({ category, sortBy }: BooksFiltersProps) {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="books-filter d-flex flex-column flex-md-row gap-3 mb-4">
-      <div className="d-flex gap-3">
-        <div style={{ minWidth: '180px' }}>
-          <label htmlFor="category-select" className="visually-hidden">
-            Filter by category
-          </label>
-          <select
-            id="category-select"
-            className="form-select"
-            value={category}
-            onChange={(e) =>
-              dispatch(booksSlice.actions.setCategory(e.target.value))
-            }
+    <div className={styles.filtersWrapper}>
+      <div className='d-flex gap-2'>
+        {categories.map(({ value, label }) => (
+          <button
+            key={value}
+            className={`${styles.chip} ${category === value ? styles.chipActive : ''}`}
+            onClick={() => dispatch(booksSlice.actions.setCategory(value))}
           >
-            <option value="all">All categories</option>
-            <option value="art">Art</option>
-            <option value="biography">Biography</option>
-            <option value="computers">Computers</option>
-          </select>
-        </div>
+            {label}
+          </button>
+        ))}
+      </div>
 
-        <div style={{ minWidth: '180px' }}>
-          <label htmlFor="sort-select" className="visually-hidden">
-            Sort by
-          </label>
-          <select
-            id="sort-select"
-            className="form-select"
-            value={sortBy}
-            onChange={(e) =>
-              dispatch(
-                booksSlice.actions.setSortBy(
-                  e.target.value as 'relevance' | 'newest'
-                )
-              )
-            }
+      <div className='d-flex gap-2'>
+        {sorts.map(({ value, label }) => (
+          <button
+            key={value}
+            className={`${styles.chip} ${sortBy === value ? styles.chipActive : ''}`}
+            onClick={() => dispatch(booksSlice.actions.setSortBy(value))}
           >
-            <option value="relevance">By relevance</option>
-            <option value="newest">By newest</option>
-          </select>
-        </div>
+            {label}
+          </button>
+        ))}
       </div>
     </div>
   )
