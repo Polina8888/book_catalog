@@ -24,28 +24,38 @@ export function BooksFilters({ category, sortBy }: BooksFiltersProps) {
 
   return (
     <div className={styles.filtersWrapper}>
-      <div className='d-flex gap-2'>
-        {categories.map(({ value, label }) => (
-          <button
-            key={value}
-            className={`${styles.chip} ${category === value ? styles.chipActive : ''}`}
-            onClick={() => dispatch(booksSlice.actions.setCategory(value))}
-          >
-            {label}
-          </button>
-        ))}
+      <div className={styles.categoriesWrapper}>
+        <div className='d-flex flex-column align-items-start gap-2'>
+          <span className={styles.label}>Genre</span>
+          <div className='d-flex gap-2'>
+            {categories.map(({ value, label }) => (
+              <button
+                key={value}
+                className={`${styles.chip} ${category === value ? styles.chipActive : ''}`}
+                onClick={() => dispatch(booksSlice.actions.setCategory(value))}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className='d-flex gap-2'>
-        {sorts.map(({ value, label }) => (
-          <button
-            key={value}
-            className={`${styles.chip} ${sortBy === value ? styles.chipActive : ''}`}
-            onClick={() => dispatch(booksSlice.actions.setSortBy(value))}
-          >
-            {label}
-          </button>
-        ))}
+      <div className={styles.sortsWrapper}>
+        <div className='d-flex flex-column gap-2'>
+          <span className={`${styles.sortLabel} ${styles.label}`}>Sorted by</span>
+          <div className='d-flex gap-2'>
+            {sorts.map(({ value, label }) => (
+              <button
+                key={value}
+                className={`${styles.chip} ${sortBy === value ? styles.chipActive : ''}`}
+                onClick={() => dispatch(booksSlice.actions.setSortBy(value))}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )

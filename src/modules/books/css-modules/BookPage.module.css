@@ -1,12 +1,23 @@
 .container {
   width: 100%;
-  padding: 2rem 1rem;
+  padding: 1rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 2rem;
+}
+
+@media (max-width: 767px) {
+  .container {
+    justify-content: start;
+    align-items: end;
+  }
+
+  .floatingCart {
+    margin-top: -2rem;
+  }
 }
 
 .bookLayout {
@@ -25,6 +36,13 @@
   .bookLayout {
     grid-template-columns: 300px 1fr;
     align-items: start;
+  }
+
+  .floatingCart {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 1000;
   }
 }
 
@@ -125,16 +143,6 @@
 
 .addToCartBtn:active {
   transform: translateY(0);
-}
-
-.floatingCart {
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
-  z-index: 1000;
-
-  --cart-size: 3rem;
-  --icon-size: 1.5rem;
 }
 
 .loaderContainer {

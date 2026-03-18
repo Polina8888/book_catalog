@@ -90,10 +90,6 @@ function CatalogPage() {
       </header>
 
       <div className={styles.filtersBar}>
-        <div className={styles.labelsWrapper}>
-          <span className={styles.filterLabel}>Genre</span>
-          <span className={styles.filterLabel}>Sorted by</span>
-        </div>
         <BooksFilters category={category} sortBy={sortBy} />
       </div>
 

@@ -59,6 +59,7 @@
 
 .search {
   width: 100%;
+  height: 3rem;
   padding: 0.6rem 1rem 0.6rem 2.4rem;
   background: var(--paper-warm);
   border: 1px solid var(--border);
@@ -142,7 +143,7 @@
   width: 100%;
 }
 
-.filterLabel {
+.label {
   font-size: 0.8rem;
   font-weight: 100 !important;
   letter-spacing: 0.1em;
@@ -153,9 +154,37 @@
 
 .filtersWrapper {
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .filtersWrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sortsWrapper {
+    grid-column-start: 3;
+    grid-column-end: 4;
+  }
+
+  .sortLabel {
+    align-self: flex-end;
+  }
+}
+
+.sortsWrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
+
+}
+
+.categoriesWrapper {
+  display: flex;
+  gap: 1rem;
+  grid-column-start: 1;
+  grid-column-end: 2;
 }
 
 .chip {
@@ -350,6 +379,20 @@
 }
 
 /* RESPONSIVE */
+@media (max-width: 767px) {
+  .label {
+    font-size: 0.7rem;
+  }
+
+  .chip {
+    font-size: 0.7rem;
+  }
+
+  .search {
+    font-size: 0.7rem;
+  }
+}
+
 @media (max-width: 600px) {
   .headerInner {
     gap: 0.75rem;
@@ -357,7 +400,7 @@
   }
 
   .logo {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
   }
 
   .filtersBar {
