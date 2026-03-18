@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Book } from "../types.ts";
 
-const BASE_URL = '/api/books/v1'
+const BASE_URL = 'https://www.googleapis.com/books/v1'
 const API_KEY = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
 
 export interface BooksResponse {
