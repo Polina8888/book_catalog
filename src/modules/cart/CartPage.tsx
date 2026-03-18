@@ -1,41 +1,89 @@
 import { useAppDispatch } from "../../store"
 import { cartSlice } from "./cartSlice"
 import { useAppSelector } from "../../store";
-// import { store } from "../../store";
-import { Container, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import styles from './Cart.module.css'
 
 function CartPage() {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
   const { items, totalCount, totalPrice } = cart;
-  // console.log(cart.items)
-  // console.log("RAW STORE STATE", store.getState());
+
+  if (items.length === 0) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.emptyState}>
+          <h3>Ваша корзина пуста</h3>
+          <p>Похоже, вы ещё не выбрали ни одной книги.</p>
+          <Link to="/" className={styles.backLink}>
+            Вернуться в каталог
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className='vh-100 d-flex flex-column justify-content-center align-items-center'>
-      <button className="btn-primary btn" onClick={() => dispatch(cartSlice.actions.clearCart())}>Clear cart</button>
-      <Container>
-        {items.map((item) => (
-          <div key={item.id}>
-            <button className="btn btn-primary" onClick={() => dispatch(cartSlice.actions.addItem(item))}>+</button>
-            <button className="btn btn-primary" onClick={() => dispatch(cartSlice.actions.removeItem(item.id))}>-</button>
+    <div className={styles.container}>
+      <div className={styles.contentWrapper}>
+        
+        <header className={styles.header}>
+          <h1 className={styles.title}>Корзина</h1>
+          <button className={styles.clearBtn} onClick={() => dispatch(cartSlice.actions.clearCart())}>
+            Очистить всё
+          </button>
+        </header>
 
-            <Card>
-              <Card.Body>
-                <Card.Title>
-                  {item.title}
-                </Card.Title>
-                <p>Price: {item.price}</p>
-                <p>Amount: {item.amount}</p>
-              </Card.Body>
-            </Card>
+        <ul className={styles.cartList}>
+          {items.map((item) => (
+            <li key={item.id} className={styles.cartItem}>
+              
+              <div className={styles.itemInfo}>
+                <h3 className={styles.itemTitle}>{item.title}</h3>
+                <span className={styles.itemPrice}>{item.price} $ / шт.</span>
+              </div>
+
+              <div className={styles.controls}>
+                <button
+                  className={`${styles.qtyBtn} ${styles.danger}`}
+                  onClick={() => dispatch(cartSlice.actions.removeItem(item.id))}
+                  aria-label="Decrease amount"
+                >
+                  −
+                </button>
+
+                <span className={styles.qtyValue}>{item.amount}</span>
+
+                <button
+                  className={styles.qtyBtn}
+                  onClick={() => dispatch(cartSlice.actions.addItem(item))}
+                  aria-label="Increase amount"
+                >
+                  +
+                </button>
+
+                <span className={styles.itemTotal}>
+                  {item.price * item.amount} $
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <footer className={styles.footer}>
+          <div className={styles.totalRow}>
+            <span>Товаров:</span>
+            <span>{totalCount}</span>
           </div>
-        ))}
-        <p>Total Count: {totalCount}</p>
-        <p>Total Price: {totalPrice}</p>
-      </Container>
+          <div className={`${styles.totalRow} ${styles.final}`}>
+            <span>Итого:</span>
+            <span>{totalPrice} $</span>
+          </div>
+        </footer>
+
+      </div>
     </div>
-  )
+  );
 }
 
 export default CartPage
