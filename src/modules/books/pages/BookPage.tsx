@@ -52,56 +52,73 @@ function BookPage() {
     </div>
   )
   return (
-    <div className={styles.container}>
-      <div className={styles.alertWrapper}>
-        <AlertComponent showAlert={showAlert} />
-      </div>
+    <div className={styles.page}>
 
-      <div className={styles.floatingCart}>
+      <div className={styles.topBar}>
         <CartIcon />
       </div>
 
-      <div className={styles.bookLayout}>
-        <div className={styles.imageWrapper}>
-          <img
-            src={data?.volumeInfo.imageLinks?.thumbnail ?? placeholderImg}
-            className={styles.bookImage}
-            alt={data?.volumeInfo.title}
-            loading="lazy"
-          />
-        </div>
+      <AlertComponent showAlert={showAlert} />
 
-        <div className={styles.content}>
-          <div>
-            <h1 className={styles.title}>{data?.volumeInfo.title}</h1>
-            {data?.volumeInfo.authors && (
-              <h5 className={styles.authors}>
-                {data?.volumeInfo.authors.join(", ")}
-              </h5>
-            )}
+      <div className={`container ${styles.container}`}>
+        <div className={`card shadow-sm border-0 ${styles.bookCard}`}>
+
+          <div className="row g-4 align-items-start">
+
+            <div className="col-12 col-md-5 col-lg-4">
+              <div className={styles.imageWrapper}>
+                <img
+                  src={data?.volumeInfo.imageLinks?.thumbnail ?? placeholderImg}
+                  className={styles.bookImage}
+                  alt={data?.volumeInfo.title}
+                />
+              </div>
+            </div>
+
+            <div className="col-12 col-md-7 col-lg-8">
+              <div className={styles.content}>
+
+                <div>
+                  <h1 className={styles.title}>
+                    {data?.volumeInfo.title}
+                  </h1>
+
+                  {!!data?.volumeInfo.authors?.length && (
+                    <p className={styles.authors}>
+                      {data.volumeInfo.authors.join(", ")}
+                    </p>
+                  )}
+                </div>
+
+                <div className={styles.price}>
+                  ${data?.price}
+                </div>
+
+                <div className={styles.description}>
+                  {data?.volumeInfo.description
+                    ? (
+                      <SanitizedDescription
+                        htmlContent={data.volumeInfo.description}
+                      />
+                    )
+                    : 'Description unavailable'}
+                </div>
+
+                <button
+                  className="btn btn-dark btn-lg"
+                  onClick={() => {
+                    handleAddToCart(data);
+                    setShowAlert(true);
+                    setTimeout(() => setShowAlert(false), 1500);
+                  }}
+                >
+                  Add to cart
+                </button>
+
+              </div>
+            </div>
+
           </div>
-
-          <div className={styles.priceBlock}>
-            <span className={styles.price}>${data?.price ?? "0.00"}</span>
-          </div>
-
-          <div className={styles.descriptionBox}>
-            {data?.volumeInfo.description ?
-              <SanitizedDescription htmlContent={data?.volumeInfo.description}></SanitizedDescription>
-              : "Описание отсутствует."}
-          </div>
-
-          <button
-            type="button"
-            className={styles.addToCartBtn}
-            onClick={() => {
-              handleAddToCart(data);
-              setShowAlert(true);
-              setTimeout(() => setShowAlert(false), 1500);
-            }}
-          >
-            Add to the cart
-          </button>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useAppDispatch } from "../../store"
 import { cartSlice } from "./cartSlice"
 import { useAppSelector } from "../../store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Cart.module.css'
 
 function CartPage() {
@@ -23,6 +23,8 @@ function CartPage() {
     );
   }
 
+  const navigate = useNavigate();
+  
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
@@ -36,7 +38,7 @@ function CartPage() {
 
         <ul className={styles.cartList}>
           {items.map((item) => (
-            <li key={item.id} className={styles.cartItem}>
+            <li key={item.id} className={styles.cartItem} onClick={() => navigate(`/books/${item.id}`)}>
               
               <div className={styles.itemInfo}>
                 <h3 className={styles.itemTitle}>{item.title}</h3>
