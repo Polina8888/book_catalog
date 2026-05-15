@@ -24,7 +24,7 @@ function CartPage() {
   }
 
   const navigate = useNavigate();
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
@@ -48,7 +48,10 @@ function CartPage() {
               <div className={styles.controls}>
                 <button
                   className={`${styles.qtyBtn} ${styles.danger}`}
-                  onClick={() => dispatch(cartSlice.actions.removeItem(item.id))}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(cartSlice.actions.removeItem(item.id))}
+                  }
                   aria-label="Decrease amount"
                 >
                   −
@@ -58,7 +61,10 @@ function CartPage() {
 
                 <button
                   className={styles.qtyBtn}
-                  onClick={() => dispatch(cartSlice.actions.addItem(item))}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(cartSlice.actions.addItem(item))}
+                  }
                   aria-label="Increase amount"
                 >
                   +
